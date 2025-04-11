@@ -1,0 +1,14 @@
+{
+  "name": "BackIT",
+  "version": "1.0.0",
+  "description": "Digital Preservation System Challenge",
+  "main": "index.js",
+  "repository": "https://github.com/lucas-pdnobrega/BackIT.git",
+  "author": "Lucas Nobrega <105940701+lucas-pdnobrega@users.noreply.github.com>",
+  "license": "GNU 3.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ]
+}

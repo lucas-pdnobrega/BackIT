@@ -1,0 +1,66 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: master
+      POSTGRES_PASSWORD: master
+      POSTGRES_DB: backit
+    volumes:
+      - backend-db:/var/lib/postgresql/data
+    networks:
+      - application
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backit-backend
+    working_dir: /backend
+    ports:
+      - '8000:8000'
+    environment:
+      DATABASE_URL: postgres://master:master@postgres:5432/backit
+    depends_on:
+      - postgres
+    networks:
+      - application
+    volumes:
+      - /backend/node_modules
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: backit-frontend
+    working_dir: /frontend
+    ports:
+      - '3000:3000'
+    depends_on:
+      - backend
+
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 64M
+
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backit-backend:8000
+    networks:
+      - application
+    volumes:
+      - /frontend/node_modules
+
+
+networks:
+  application:
+    driver: bridge
+
+volumes:
+  backend-db:
