@@ -11,9 +11,9 @@ done
 
 echo "Postgres is avaliable. Running migrations."
 
-npx prisma generate
-npx prisma migrate deploy
+yarn prisma generate
+yarn prisma migrate deploy
 
 #Start prisma
 echo "Starting application."
-yarn start:prod
+yarn start:dev

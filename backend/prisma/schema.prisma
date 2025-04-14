@@ -1,9 +1,32 @@
-datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
 }
-model User {                                                                                                                                                                                             
-    id    Int     @id @default(autoincrement())
-    email String  @unique                                                                                                                                                                                  
-    name  String?                                                                                                                                                                                          
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @default(autoincrement()) @id
+  email     String    @unique
+  password  String
+  archives  Archive[]
+}
+
+model Archive {
+  id        Int       @default(autoincrement()) @id
+  title     String
+  upload    DateTime
+  status    String
+  hash      String?
+  size      Decimal?
+  authorId  Int
+  author    User      @relation(fields: [authorId], references: [id])
 }
