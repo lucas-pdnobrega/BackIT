@@ -3,10 +3,12 @@ import {
     Controller,
     Get,
     Post,
-    Param
+    Param,
+    Delete
 } from '@nestjs/common';
 import { User as UserModel} from '@prisma/client';
 import { UserService} from './user.service';
+import { CreateUserDTO, QueryUserDTO, UserParamIdDTO } from './user.dto';
 
 
 @Controller('user')
@@ -15,32 +17,32 @@ export class UserController {
 
     @Get(':id')
     getUserById(
-        @Param('id') id: number): Promise<UserModel | null> {
+        @Param() params: UserParamIdDTO): Promise<UserModel | null> {
         const res = this.userService.user(
-            { id: Number(id)}
+            { id: params.id}
         );
         return res;
     }
 
-    @Get()
-    getUser(
-        @Param() many: boolean = false, @Body() queryData: { id?: number; email?: string }
+    @Post()
+    queryUsers(
+        @Body() userData: QueryUserDTO
     ): Promise<UserModel | UserModel[] | null> {
-        const { id, email } = queryData;
-        const res = many? 
-        this.userService.users(
-            {
-                where: { id, email }
-            }
-        ) : this.userService.user({ id, email });
+        const res = this.userService.users({where: userData});
         return res;
     }
 
     @Post()
-    signupUser(
-        @Body() userData: { email:string; password:string }
+    createUser(
+        @Body() userData: CreateUserDTO
     ): Promise<UserModel> {
-        const { email, password } = userData;
-        return this.userService.createUser({ email, password });
+        return this.userService.createUser(userData);
+    }
+
+    @Delete(':id')
+    deleteUser(
+        @Param() params: UserParamIdDTO
+    ): Promise<UserModel | null> {
+        return this.userService.deleteUser({id: params.id});
     }
 }
