@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT ?? 3000);
+  const dbPort = process.env.NESTJS_API_PORT || 8000;
+  await app.listen(dbPort, '0.0.0.0');
 }
 bootstrap();

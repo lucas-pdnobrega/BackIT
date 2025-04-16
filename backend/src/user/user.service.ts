@@ -1,9 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-redundant-type-constituents */
-/* eslint-disable @typescript-eslint/require-await */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { User, Prisma } from '@prisma/client';
@@ -58,12 +52,5 @@ export class UserService {
         return this.prisma.user.delete({
             where,
         });
-    }
-
-    getUser(many: boolean, name: string): string {
-        if (many) {
-        return `Many users matching ${name}`;
-        }
-        return `One user by the name of ${name}`;
     }
 }

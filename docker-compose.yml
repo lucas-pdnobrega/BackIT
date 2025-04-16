@@ -28,6 +28,7 @@ services:
     networks:
       - application
     volumes:
+      - ./backend:/backend
       - /backend/node_modules
 
   frontend:
@@ -55,6 +56,7 @@ services:
     networks:
       - application
     volumes:
+      - ./frontend:/frontend
       - /frontend/node_modules
 
 
