@@ -6,7 +6,8 @@ import { AppService } from './app.service';
 import { UserService } from './user/user.service';
 import { UserController } from './user/user.controller';
 import { PrismaService } from './prisma.service';
-// import { ArchiveService } from './archive/archive.service';
+import { ArchiveController } from './archive/archive.controller';
+import { ArchiveService } from './archive/archive.service';
 
 @Module({
   imports: [ConfigModule.forRoot(
@@ -16,11 +17,12 @@ import { PrismaService } from './prisma.service';
   )],
   controllers: [
     AppController,
-    UserController
+    UserController,
+    ArchiveController
   ],
   providers: [
     AppService,
-    // ArchiveService,
+    ArchiveService,
     UserService,
     PrismaService
   ]
