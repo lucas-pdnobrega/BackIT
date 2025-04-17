@@ -5,11 +5,12 @@ import {
     Post,
     Param,
     Delete,
-    NotFoundException
+    NotFoundException,
+    Query
 } from '@nestjs/common';
-import { Archive as ArchiveModel } from '@prisma/client';
+import { Archive as ArchiveModel} from '@prisma/client';
 import { ArchiveService} from './archive.service';
-import { CreateArchiveDTO, ArchiveParamIdDTO } from './archive.dto';
+import { CreateArchiveDTO, ArchiveParamIdDTO, QueryArchiveDTO } from './archive.dto';
 import { UserService } from 'src/user/user.service';
 
 
@@ -21,12 +22,16 @@ export class ArchiveController {
     ) {}
 
     @Get(':id')
-    getArchiveById(
-        @Param() params: ArchiveParamIdDTO): Promise<ArchiveModel | null> {
+    getArchiveById(@Param() params: ArchiveParamIdDTO): Promise<ArchiveModel | null> {
         const res = this.archiveService.archive(
             { id: params.id}
         );
         return res;
+    }
+
+    @Get()
+    getArchiveByQuery(@Query() query: QueryArchiveDTO): Promise<ArchiveModel[] | null> {
+        return this.archiveService.filterArchives(query);
     }
 
     @Post()

@@ -9,7 +9,6 @@ COPY . .
 
 RUN apt-get update && apt-get install -y netcat-openbsd
 RUN yarn install --frozen-lockfile
-RUN yarn build
 
 # Generate Prisma client and apply migrations (After Postgres has been run)
 RUN chmod +x pgsql_wait.sh

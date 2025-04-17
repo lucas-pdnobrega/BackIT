@@ -4,7 +4,8 @@ import {
     Get,
     Post,
     Param,
-    Delete
+    Delete,
+    Query
 } from '@nestjs/common';
 import { User as UserModel} from '@prisma/client';
 import { UserService} from './user.service';
@@ -24,11 +25,11 @@ export class UserController {
         return res;
     }
 
-    @Post()
+    @Get()
     queryUsers(
-        @Body() userData: QueryUserDTO
+        @Query() userData: QueryUserDTO
     ): Promise<UserModel | UserModel[] | null> {
-        const res = this.userService.users({where: userData});
+        const res = this.userService.filterUsers(userData);
         return res;
     }
 

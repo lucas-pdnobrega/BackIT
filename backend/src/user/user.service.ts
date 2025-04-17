@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { User, Prisma } from '@prisma/client';
+import { QueryUserDTO } from './user.dto';
 
 @Injectable()
 export class UserService {
@@ -29,7 +30,26 @@ export class UserService {
             where,
             orderBy,
         });
+    }
+
+    async filterUsers(query: QueryUserDTO): Promise<User[]> {
+        const where: Prisma.UserWhereInput = {};
+        
+        if (query.email) {
+            where.email = { contains: query.email, mode: 'insensitive' };
         }
+        
+        const orderBy = query.orderBy
+            ? { [query.orderBy]: query.order ?? 'asc' }
+            : undefined;
+        
+        return this.prisma.user.findMany({
+            skip: query.skip,
+            take: query.take,
+            where,
+            orderBy,
+        });
+    }
 
     async createUser(data: Prisma.UserCreateInput): Promise<User> {
         return this.prisma.user.create({
