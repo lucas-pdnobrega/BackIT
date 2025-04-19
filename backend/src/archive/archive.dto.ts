@@ -13,7 +13,7 @@ import {
     Type
 } from 'class-transformer';
 import { StatusEnum } from './archive.enum';
-import { PaginationQueryDTO } from 'src/common/common.dto';
+import { CommonQueryDTO } from 'src/common/common.dto';
 
 
 export class CreateArchiveDTO {
@@ -49,7 +49,7 @@ export class ArchiveParamIdDTO {
     id: number;
 }
 
-export class QueryArchiveDTO extends PaginationQueryDTO {
+export class QueryArchiveDTO extends CommonQueryDTO {
 
     @IsString()
     @MaxLength(128)

@@ -9,7 +9,7 @@ import {
 import {
     Type
 } from 'class-transformer';
-import { PaginationQueryDTO } from 'src/common/common.dto';
+import { CommonQueryDTO } from 'src/common/common.dto';
 
 export class CreateUserDTO {
     @IsEmail()
@@ -21,7 +21,7 @@ export class CreateUserDTO {
     password: string;
 }
 
-export class QueryUserDTO extends PaginationQueryDTO {
+export class QueryUserDTO extends CommonQueryDTO {
     @IsOptional()
     @IsInt()
     id?: number;
