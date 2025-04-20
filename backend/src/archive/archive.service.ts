@@ -1,11 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { Archive, Prisma } from '@prisma/client';
-import { QueryArchiveDTO } from './archive.dto';
+import { QueryArchiveDTO, CreateArchiveDTO } from './archive.dto';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class ArchiveService {
-    constructor(private prisma: PrismaService) {}
+    constructor(
+        private prisma: PrismaService,
+        private readonly userService: UserService
+    ) {}
 
     async archive(
         archiveWhereUniqueInput: Prisma.ArchiveWhereUniqueInput,
@@ -65,7 +69,22 @@ export class ArchiveService {
         });
     }
 
-    async createArchive(data: Prisma.ArchiveCreateInput): Promise<Archive> {
+    async createArchive(archiveData: CreateArchiveDTO): Promise<Archive> {
+        const user = await this.userService.user({ id: archiveData.authorId });
+        
+        if (!user) {
+            throw new NotFoundException(`User (author) not found`);
+        }
+
+        const data: Prisma.ArchiveCreateInput = {
+            title: archiveData.title,
+            upload: archiveData.upload,
+            status: archiveData.status,
+            hash: archiveData.hash,
+            size: archiveData.size,
+            author: {connect: {id: user.id}}
+        }; 
+        
         return this.prisma.archive.create({
             data,
         });

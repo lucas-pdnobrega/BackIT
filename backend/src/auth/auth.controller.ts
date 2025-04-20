@@ -6,6 +6,7 @@ import {
 import { UserService} from '../user/user.service';
 import { AuthService } from './auth.service';
 import { LoginDTO, TokenDTO } from './auth.dto';
+import { Public } from 'src/common/public.decorator';
 
 
 @Controller('auth')
@@ -14,6 +15,7 @@ export class AuthController {
         private readonly authService: AuthService,
         private readonly useService: UserService) {}
 
+    @Public()
     @Post()
     logIn(
         @Body() loginData: LoginDTO

@@ -5,7 +5,6 @@ import {
     Post,
     Param,
     Delete,
-    NotFoundException,
     Query
 } from '@nestjs/common';
 import { Archive as ArchiveModel} from '@prisma/client';
@@ -38,22 +37,7 @@ export class ArchiveController {
     async createArchive(
         @Body() archiveData: CreateArchiveDTO
     ): Promise<ArchiveModel | null> {
-        const user = await this.userService.user({ id: archiveData.authorId });
-
-        if (!user) {
-            throw new NotFoundException(`User (author) not found`);
-        }
-
-        return this.archiveService.createArchive(
-            {
-                title: archiveData.title,
-                upload: archiveData.upload,
-                status: archiveData.status,
-                hash: archiveData.hash,
-                size: archiveData.size,
-                author: {connect: {id: user.id}}
-            }
-        );
+        return this.archiveService.createArchive(archiveData);
     }
 
     @Delete(':id')
