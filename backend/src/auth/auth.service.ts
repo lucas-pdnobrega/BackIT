@@ -3,7 +3,6 @@ import { LoginDTO, TokenDTO } from "./auth.dto";
 import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import * as bcrypt from 'bcrypt';
-import { Logger } from '@nestjs/common';
 import { CreateUserDTO } from "src/user/user.dto";
 
 @Injectable()
