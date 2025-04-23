@@ -39,7 +39,7 @@ docker compose up --build
 
 This will start the PostgreSQL database, the NestJS backend, and the Next.js frontend, available at:
 
-- Frontend: http://localhost:3000
+- Frontend: http://localhost:3000/home
 
 - Backend: http://localhost:8000
 
@@ -79,5 +79,5 @@ Despite progress, the technical challenge environment did not allow for a suffic
 
 Lucas Palmeira Dantas da Nóbrega
 
-Internet Systems Student | Future Fullstack Developer 
-Contact: lucaspdn04@gmail.com
+- Internet Systems Student | Trainee Fullstack Developer 
+- Contact: lucaspdn04@gmail.com
