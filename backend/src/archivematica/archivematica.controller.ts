@@ -14,6 +14,8 @@ export class ArchivematicaController {
     ) {}
     
     /*
+    TEMPO LIMITE NÃO SUFICIENTE PARA CONFECCIONAR MOCKUPS DE TRANSFERÊNCIAS COM ARCHIVEMATICA
+
     @Post("transfer")
     startTransfer(@Body() data: startTransferDTO): Promise<any> {
         return this.archivematicaService.startTransfer({

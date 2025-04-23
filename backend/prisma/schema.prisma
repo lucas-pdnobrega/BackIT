@@ -27,6 +27,7 @@ model Archive {
   status    String
   hash      String?
   size      Decimal?
+  filepath  String
   authorId  Int
   author    User      @relation(fields: [authorId], references: [id])
 }

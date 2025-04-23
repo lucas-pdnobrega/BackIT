@@ -7,6 +7,8 @@ import { Injectable } from "@nestjs/common";
 @Injectable()
 export class ArchivematicaService {
     /*
+    TEMPO LIMITE NÃO SUFICIENTE PARA CONFECCIONAR MOCKUPS DE TRANSFERÊNCIAS COM ARCHIVEMATICA
+
     constructor(private readonly httpService: HttpService) {}
 
     private readonly apiUrl = process.env.ARCHIVEMATICA_API_URL;

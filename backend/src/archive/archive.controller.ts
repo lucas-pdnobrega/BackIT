@@ -1,16 +1,10 @@
-import {
-    Body, 
-    Controller,
-    Get,
-    Post,
-    Param,
-    Delete,
-    Query
-} from '@nestjs/common';
-import { Archive as ArchiveModel} from '@prisma/client';
-import { ArchiveService} from './archive.service';
+import { Body, Controller, Get, Post, Param, Delete, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ArchiveService } from './archive.service';
 import { CreateArchiveDTO, ArchiveParamIdDTO, QueryArchiveDTO } from './archive.dto';
 import { UserService } from 'src/user/user.service';
+import { Archive as ArchiveModel } from '@prisma/client';
+import { Express } from 'express';
 
 
 @Controller('archive')
@@ -33,11 +27,17 @@ export class ArchiveController {
         return this.archiveService.filterArchives(query);
     }
 
-    @Post()
-    async createArchive(
+    @Post('upload')
+    @UseInterceptors(FileInterceptor('file'))
+    async uploadArchive(
+        @UploadedFile() file: Express.Multer.File,
         @Body() archiveData: CreateArchiveDTO
-    ): Promise<ArchiveModel | null> {
-        return this.archiveService.createArchive(archiveData);
+    ): Promise<ArchiveModel> {
+        if (!file) {
+            throw new Error('Arquivo não encontrado');
+        }
+
+        return this.archiveService.uploadArchive(file, archiveData);
     }
 
     @Delete(':id')

@@ -1,8 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { Archive, Prisma } from '@prisma/client';
 import { QueryArchiveDTO, CreateArchiveDTO } from './archive.dto';
 import { UserService } from 'src/user/user.service';
+import * as path from 'path';
+import * as fs from 'fs';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class ArchiveService {
@@ -69,22 +74,27 @@ export class ArchiveService {
         });
     }
 
-    async createArchive(archiveData: CreateArchiveDTO): Promise<Archive> {
+    async uploadArchive(file: Express.Multer.File, archiveData: CreateArchiveDTO): Promise<Archive> {
         const user = await this.userService.user({ id: archiveData.authorId });
         
         if (!user) {
             throw new NotFoundException(`User (author) not found`);
         }
 
+        const fileName = uuidv4() + path.extname(file.originalname);
+        const filePath = path.join(__dirname, '..', '..', 'uploads', fileName);
+        fs.writeFileSync(filePath, file.buffer);
+
         const data: Prisma.ArchiveCreateInput = {
             title: archiveData.title,
             upload: archiveData.upload,
             status: archiveData.status,
             hash: archiveData.hash,
-            size: archiveData.size,
-            author: {connect: {id: user.id}}
-        }; 
-        
+            size: file.size,
+            filepath: filePath,
+            author: { connect: { id: user.id } },
+        };
+
         return this.prisma.archive.create({
             data,
         });

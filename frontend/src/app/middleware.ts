@@ -3,14 +3,15 @@ import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
     const token = request.cookies.get('token')?.value;
+    const pathname = request.nextUrl.pathname;
 
-    const isAuthPage = request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup';
+    const isAuthPage = pathname === '/login' || pathname === '/signup';
 
     if (token && isAuthPage) {
         return NextResponse.redirect(new URL('/home', request.url));
     }
 
-    if (!token && request.nextUrl.pathname.startsWith('/home')) {
+    if (!token && !isAuthPage) {
         return NextResponse.redirect(new URL('/login', request.url));
     }
 
@@ -18,5 +19,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/home/:path*', '/login', '/signup'],
-  };
+    matcher: ['/((?!_next|favicon.ico).*)'],
+};

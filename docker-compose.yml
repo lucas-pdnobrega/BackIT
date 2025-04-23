@@ -52,7 +52,7 @@ services:
                     memory: 64M
 
         environment:
-        - NEXT_PUBLIC_API_URL=http://backit-backend:8000
+        - NEXT_PUBLIC_API_URL=http://localhost:8000
         networks:
         - application
         volumes:

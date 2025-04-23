@@ -11,6 +11,11 @@ async function bootstrap() {
     transform: true
   }));
 
+  app.enableCors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  });
+
   const dbPort = process.env.NESTJS_API_PORT || 8000;
   await app.listen(dbPort, '0.0.0.0');
 }

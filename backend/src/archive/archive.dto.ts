@@ -37,6 +37,9 @@ export class CreateArchiveDTO {
     @IsOptional()
     @Min(0)
     size?: number;
+
+    @IsString()
+    filepath: string;
     
     @IsInt()
     authorId: number;
@@ -80,6 +83,10 @@ export class QueryArchiveDTO extends CommonQueryDTO {
     @IsOptional()
     @Min(0)
     size: number;
+
+    @IsString()
+    @IsOptional()
+    filepath: string;
     
     @IsInt()
     @IsOptional()
