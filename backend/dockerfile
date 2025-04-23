@@ -15,4 +15,4 @@ RUN chmod +x pgsql_wait.sh
 
 EXPOSE 8000
 
-CMD ["./pgsql_wait.sh"]
+CMD ["bash", "./pgsql_wait.sh"]

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
@@ -14,6 +14,5 @@ echo "Postgres is avaliable. Running migrations."
 yarn prisma generate
 yarn prisma migrate deploy
 
-#Start prisma
 echo "Starting application."
 yarn start:dev
